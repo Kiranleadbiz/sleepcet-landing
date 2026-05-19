@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Loader2, ShieldCheck, Truck, RotateCcw, Star, ArrowRight } from "lucide-react";
+import { Loader2, ShieldCheck, Truck, Star, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
@@ -12,7 +12,6 @@ function Skeleton({ className }: { className?: string }) {
 
 const TRUST = [
   { icon: Truck, label: "Free shipping" },
-  { icon: RotateCcw, label: "60-night trial" },
   { icon: ShieldCheck, label: "5-year warranty" },
 ];
 

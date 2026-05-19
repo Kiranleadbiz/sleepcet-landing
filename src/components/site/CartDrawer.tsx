@@ -85,7 +85,7 @@ export function CartDrawer() {
                 <Button onClick={handleCheckout} className="w-full bg-cocoa hover:bg-cocoa/90 text-cream" size="lg" disabled={isLoading || isSyncing}>
                   {isLoading || isSyncing ? <Loader2 className="w-4 h-4 animate-spin" /> : <><ExternalLink className="w-4 h-4 mr-2" /> Secure Checkout</>}
                 </Button>
-                <p className="text-xs text-center text-muted-foreground">Free shipping • 60-night trial • Easy returns</p>
+                <p className="text-xs text-center text-muted-foreground">Free shipping • Easy returns</p>
               </div>
             </>
           )}

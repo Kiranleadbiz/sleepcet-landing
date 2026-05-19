@@ -4,7 +4,7 @@ import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, ShieldCheck, Truck, RotateCcw, ArrowLeft } from "lucide-react";
+import { Loader2, ShieldCheck, Truck, ArrowLeft } from "lucide-react";
 import { useProductByHandle } from "@/hooks/useProducts";
 import { useCartStore } from "@/stores/cartStore";
 import { useCartSync } from "@/hooks/useCartSync";
@@ -101,10 +101,9 @@ function ProductPage() {
             {isAdding ? <Loader2 className="h-5 w-5 animate-spin" /> : variant?.availableForSale ? "Add to Cart" : "Sold Out"}
           </Button>
 
-          <div className="mt-8 grid grid-cols-3 gap-4 text-xs">
+          <div className="mt-8 grid grid-cols-2 gap-4 text-xs">
             {[
               { i: Truck, t: "Free shipping" },
-              { i: RotateCcw, t: "60-night trial" },
               { i: ShieldCheck, t: "5-year warranty" },
             ].map(({ i: Icon, t }) => (
               <div key={t} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-background">

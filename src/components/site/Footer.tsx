@@ -20,7 +20,6 @@ export function Footer() {
         <div>
           <h4 className="text-cream text-sm mb-4">Support</h4>
           <ul className="space-y-2 text-sm">
-            <li>60-night trial</li>
             <li>Shipping & returns</li>
             <li>Contact</li>
           </ul>

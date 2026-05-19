@@ -5,7 +5,6 @@ const rows = [
   ["Adaptive memory foam contour", true, false],
   ["Cooling breathable cover", true, false],
   ["Engineered for side & back sleepers", true, false],
-  ["60-night sleep trial", true, false],
   ["Loses shape within months", false, true],
 ];
 
