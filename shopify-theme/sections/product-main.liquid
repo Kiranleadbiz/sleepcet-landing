@@ -1,0 +1,117 @@
+<div class="sc-container" style="padding-top:24px">
+  <a href="/" class="sc-back-link">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back
+  </a>
+</div>
+
+<section class="sc-product-page">
+  <div class="sc-container sc-product-grid">
+    <!-- Gallery -->
+    <div class="sc-gallery">
+      <div class="sc-gallery-main" id="MainImage-page">
+        <img id="MainImageEl-page" src="{{ product.featured_image | image_url: width: 900 }}" alt="{{ product.featured_image.alt | escape }}" width="900" height="900">
+      </div>
+      {%- if product.images.size > 1 -%}
+      <div class="sc-gallery-thumbs">
+        {%- for image in product.images -%}
+        <button class="sc-thumb {% if forloop.first %}active{% endif %}" data-url="{{ image | image_url: width: 900 }}" data-target="MainImageEl-page">
+          <img src="{{ image | image_url: width: 120 }}" alt="{{ image.alt | escape }}" width="120" height="120">
+        </button>
+        {%- endfor -%}
+      </div>
+      {%- endif -%}
+    </div>
+
+    <!-- Info -->
+    <div class="sc-product-info">
+      <span class="sc-product-badge">SLEEPCET</span>
+      <h1 class="sc-product-title">{{ product.title }}</h1>
+      <p class="sc-product-price" id="PagePrice">{{ product.selected_or_first_available_variant.price | money }}</p>
+      {%- if product.description != blank -%}
+        <div class="sc-product-desc">{{ product.description }}</div>
+      {%- endif -%}
+
+      {%- form 'product', product, id: "PageForm" -%}
+        <input type="hidden" name="id" id="PageVariantInput" value="{{ product.selected_or_first_available_variant.id }}">
+
+        {%- unless product.has_only_default_variant -%}
+        <div class="sc-variants">
+          {%- for option in product.options_with_values -%}
+          <div class="sc-option-group">
+            <p class="sc-option-label">{{ option.name }}</p>
+            <div class="sc-option-btns">
+              {%- for value in option.values -%}
+              <button type="button" class="sc-option-btn {% if option.selected_value == value %}active{% endif %}" data-value="{{ value | escape }}" data-option="{{ forloop.parentloop.index0 }}" data-section="page">{{ value }}</button>
+              {%- endfor -%}
+            </div>
+          </div>
+          {%- endfor -%}
+        </div>
+        {%- endunless -%}
+
+        <button type="submit" id="PageATCBtn" class="sc-atc-btn sc-mt-10" {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
+          <span id="PageATCText">{%- if product.selected_or_first_available_variant.available -%}Add to Cart{%- else -%}Sold Out{%- endif -%}</span>
+          <span id="PageATCSpinner" class="sc-spinner" style="display:none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:sc-spin .8s linear infinite"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-opacity=".25"/><path d="M21 12a9 9 0 00-9-9"/></svg></span>
+        </button>
+      {%- endform -%}
+
+      <div class="sc-trust sc-trust-2col" style="margin-top:28px">
+        <div class="sc-trust-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg><span>Free shipping</span></div>
+        <div class="sc-trust-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>5-year warranty</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var pJson = {{ product | json }};
+  var selOpts = [{% for option in product.options_with_values %}{{ option.selected_value | json }}{% unless forloop.last %},{% endunless %}{% endfor %}];
+
+  document.querySelectorAll('.sc-thumb[data-target]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      btn.closest('.sc-gallery-thumbs').querySelectorAll('.sc-thumb').forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active');
+      var img=document.getElementById(btn.dataset.target);
+      if(img) img.src=btn.dataset.url;
+    });
+  });
+
+  function findVariant(){ return pJson.variants.find(function(v){ return v.options.every(function(o,i){ return o===selOpts[i]; }); }); }
+
+  document.querySelectorAll('.sc-option-btn[data-section="page"]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      selOpts[parseInt(btn.dataset.option)]=btn.dataset.value;
+      btn.closest('.sc-option-btns').querySelectorAll('.sc-option-btn').forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active');
+      var v=findVariant();
+      var priceEl=document.getElementById('PagePrice');
+      if(priceEl&&v) priceEl.textContent={{ shop.money_format | json }}.replace('{{amount}}', (v.price/100).toFixed(2));
+      var atcBtn=document.getElementById('PageATCBtn');
+      var atcTxt=document.getElementById('PageATCText');
+      var inp=document.getElementById('PageVariantInput');
+      if(atcBtn&&atcTxt&&inp){ if(v&&v.available){atcBtn.disabled=false;atcTxt.textContent='Add to Cart';inp.value=v.id;}else{atcBtn.disabled=true;atcTxt.textContent='Sold Out';} }
+    });
+  });
+
+  var form=document.getElementById('PageForm');
+  if(form) form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var btn=document.getElementById('PageATCBtn');
+    var txt=document.getElementById('PageATCText');
+    var spin=document.getElementById('PageATCSpinner');
+    var varId=document.getElementById('PageVariantInput').value;
+    btn.disabled=true; if(txt)txt.style.display='none'; if(spin)spin.style.display='flex';
+    fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({id:varId,quantity:1})})
+    .then(function(r){return r.json();})
+    .then(function(d){ if(!d.status){ document.dispatchEvent(new CustomEvent('cart:refresh')); ScCart.open(); } })
+    .catch(function(err){console.error(err);})
+    .finally(function(){btn.disabled=false;if(txt)txt.style.display='';if(spin)spin.style.display='none';});
+  });
+})();
+</script>
+
+{% schema %}
+{ "name": "Product Main", "settings": [] }
+{% endschema %}

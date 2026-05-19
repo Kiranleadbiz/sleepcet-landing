@@ -1,0 +1,34 @@
+<footer class="sc-footer">
+  <div class="sc-container sc-footer-grid">
+    <div class="sc-footer-brand">
+      <div class="sc-logo sc-logo-light">
+        <span class="sc-logo-dot"></span>
+        <span class="sc-logo-text">SLEEPCET</span>
+      </div>
+      <p class="sc-footer-tagline">Ergonomic sleep technology designed by clinicians, refined by sleepers. Better mornings, by design.</p>
+    </div>
+    <div>
+      <h4 class="sc-footer-heading">Shop</h4>
+      <ul class="sc-footer-links">
+        {%- assign first_product = all_products.first -%}
+        <li><a href="{{ first_product.url | default: '/collections/all' }}">The Cervical Pillow</a></li>
+        <li><a href="/collections/all">All Products</a></li>
+        <li><a href="/pages/care-guide">Care Guide</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="sc-footer-heading">Support</h4>
+      <ul class="sc-footer-links">
+        <li><a href="/policies/shipping-policy">Shipping &amp; returns</a></li>
+        <li><a href="/pages/contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="sc-footer-bottom">
+    &copy; {{ 'now' | date: "%Y" }} {{ shop.name }}. All rights reserved.
+  </div>
+</footer>
+
+{% schema %}
+{ "name": "Footer", "settings": [] }
+{% endschema %}

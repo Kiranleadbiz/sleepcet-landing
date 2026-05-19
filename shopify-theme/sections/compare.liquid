@@ -1,0 +1,40 @@
+<section id="compare" class="sc-compare">
+  <div class="sc-container">
+    <div class="sc-section-header">
+      <p class="sc-label sc-label-gold">The difference</p>
+      <h2 class="sc-heading">Not just another pillow.</h2>
+    </div>
+    <div class="sc-compare-table">
+      <div class="sc-compare-header">
+        <div class="sc-compare-col-label">Feature</div>
+        <div class="sc-compare-col-brand">Sleepcet</div>
+        <div class="sc-compare-col-other">Standard pillow</div>
+      </div>
+      {%- assign rows = "Cervical alignment support|true|false,Adaptive memory foam contour|true|false,Cooling breathable cover|true|false,Engineered for side & back sleepers|true|false,Loses shape within months|false|true" | split: "," -%}
+      {%- for row in rows -%}
+        {%- assign cells = row | split: "|" -%}
+        <div class="sc-compare-row">
+          <div class="sc-compare-feature">{{ cells[0] }}</div>
+          <div class="sc-compare-check">
+            {%- if cells[1] == "true" -%}
+              <span class="sc-check sc-check-yes"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>
+            {%- else -%}
+              <span class="sc-check sc-check-no"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+            {%- endif -%}
+          </div>
+          <div class="sc-compare-check">
+            {%- if cells[2] == "true" -%}
+              <span class="sc-check sc-check-muted"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>
+            {%- else -%}
+              <span class="sc-check sc-check-no"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Compare", "settings": [], "presets": [{ "name": "Compare" }] }
+{% endschema %}

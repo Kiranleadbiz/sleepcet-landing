@@ -1,0 +1,31 @@
+<section class="sc-lifestyle">
+  <div class="sc-container sc-lifestyle-grid">
+    {%- if section.settings.lifestyle_image -%}
+      <img src="{{ section.settings.lifestyle_image | image_url: width: 1280 }}" alt="Sleeper resting on Sleepcet pillow" loading="lazy" class="sc-rounded sc-shadow">
+    {%- else -%}
+      <img src="{{ 'sleep-positions.jpg' | asset_url }}" alt="Sleeper resting on Sleepcet pillow" loading="lazy" class="sc-rounded sc-shadow">
+    {%- endif -%}
+    <div>
+      <p class="sc-label sc-label-gold">Recovery sleep</p>
+      <h2 class="sc-heading sc-heading-light">Sleep that resets you.</h2>
+      <p class="sc-body sc-body-light">Built for the people who wake up sore, scroll for solutions, and want one that actually works. Our pillow restores the natural posture your body asks for every night.</p>
+      {%- assign first_product = all_products.first -%}
+      {%- if first_product -%}
+        <a href="{{ first_product.url }}" class="sc-btn sc-btn-gold sc-mt-10">
+          Shop the Pillow
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Lifestyle",
+  "settings": [
+    { "type": "image_picker", "id": "lifestyle_image", "label": "Lifestyle image" }
+  ],
+  "presets": [{ "name": "Lifestyle" }]
+}
+{% endschema %}

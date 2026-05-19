@@ -1,0 +1,57 @@
+<section class="sc-hero">
+  <div class="sc-container sc-hero-grid">
+    <div class="sc-hero-content fade-up">
+      <div class="sc-hero-label">
+        <span class="sc-hero-line"></span>
+        Designed for Deep Recovery &amp; Neck Support
+      </div>
+      <h1 class="sc-hero-heading">
+        Wake Up<br>Recharged,<br><span class="sc-hero-accent">Not Tired</span>
+      </h1>
+      <p class="sc-hero-sub">Better blood flow. Easier breathing. Deep recovery. All night long.</p>
+      <div class="sc-hero-divider"></div>
+      <p class="sc-hero-body">
+        Ergonomic cervical support engineered to improve blood circulation, support healthy airflow, reduce fatigue, and provide lasting comfort for active lifestyles and elderly sleepers.
+      </p>
+      <div class="sc-hero-actions">
+        {%- assign first_product = all_products.first -%}
+        {%- if first_product -%}
+          <a href="{{ first_product.url }}" class="sc-btn sc-btn-primary">
+            Shop Now
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        {%- else -%}
+          <a href="/collections/all" class="sc-btn sc-btn-primary">
+            Shop Now
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        {%- endif -%}
+        <a href="#science" class="sc-btn sc-btn-ghost">
+          Discover The Science
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="sc-hero-image fade-in">
+      <div class="sc-hero-glow"></div>
+      {%- if section.settings.hero_image -%}
+        <img src="{{ section.settings.hero_image | image_url: width: 1280 }}" alt="{{ section.settings.hero_image.alt | default: 'Sleepcet ergonomic pillow' }}" width="1280" height="1280" class="sc-hero-img">
+      {%- else -%}
+        <img src="{{ 'hero-pillow.png' | asset_url }}" alt="Sleepcet ergonomic cervical pillow" width="1280" height="1280" class="sc-hero-img">
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
+    { "type": "text", "id": "heading_line1", "label": "Heading line 1", "default": "Wake Up" },
+    { "type": "text", "id": "heading_line2", "label": "Heading line 2", "default": "Recharged," },
+    { "type": "text", "id": "heading_accent", "label": "Accent line", "default": "Not Tired" }
+  ],
+  "presets": [{ "name": "Hero" }]
+}
+{% endschema %}

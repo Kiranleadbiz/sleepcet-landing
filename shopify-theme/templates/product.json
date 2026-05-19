@@ -1,0 +1,7 @@
+{
+  "sections": {
+    "product-main": { "type": "product-main", "settings": {} },
+    "footer": { "type": "footer", "settings": {} }
+  },
+  "order": ["product-main","footer"]
+}

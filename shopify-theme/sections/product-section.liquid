@@ -1,0 +1,163 @@
+{% assign product = section.settings.product | default: all_products.first %}
+{% if product %}
+<section id="product" class="sc-product-section">
+  <div class="sc-container">
+    <div class="sc-section-header">
+      <p class="sc-label sc-label-muted">The Pillow</p>
+      <h2 class="sc-heading">{{ product.title }}</h2>
+    </div>
+    <div class="sc-product-grid">
+      <!-- Gallery -->
+      <div class="sc-gallery">
+        <div class="sc-gallery-main" id="MainImage-{{ section.id }}">
+          <img id="MainImageEl-{{ section.id }}" src="{{ product.featured_image | image_url: width: 900 }}" alt="{{ product.featured_image.alt | escape }}" width="900" height="900" loading="lazy">
+        </div>
+        {%- if product.images.size > 1 -%}
+        <div class="sc-gallery-thumbs">
+          {%- for image in product.images -%}
+          <button class="sc-thumb {% if forloop.first %}active{% endif %}" data-url="{{ image | image_url: width: 900 }}" data-target="MainImageEl-{{ section.id }}">
+            <img src="{{ image | image_url: width: 120 }}" alt="{{ image.alt | escape }}" width="120" height="120">
+          </button>
+          {%- endfor -%}
+        </div>
+        {%- endif -%}
+      </div>
+
+      <!-- Info -->
+      <div class="sc-product-info">
+        <div class="sc-rating">
+          <span class="sc-stars">★★★★★</span>
+          <span class="sc-review-count">4.9 · 2,400+ reviews</span>
+        </div>
+        <div class="sc-price" id="ProductPrice-{{ section.id }}">
+          {%- if product.compare_at_price > product.price -%}
+            <span class="sc-price-compare">{{ product.compare_at_price | money }}</span>
+          {%- endif -%}
+          <span class="sc-price-current">{{ product.price | money }}</span>
+        </div>
+        {%- if product.description != blank -%}
+          <div class="sc-product-desc">{{ product.description }}</div>
+        {%- endif -%}
+
+        {%- form 'product', product, id: "ProductForm-{{ section.id }}" -%}
+          <input type="hidden" name="id" id="VariantInput-{{ section.id }}" value="{{ product.selected_or_first_available_variant.id }}">
+
+          {%- unless product.has_only_default_variant -%}
+          <div class="sc-variants">
+            {%- for option in product.options_with_values -%}
+            <div class="sc-option-group">
+              <p class="sc-option-label">{{ option.name }}</p>
+              <div class="sc-option-btns">
+                {%- for value in option.values -%}
+                <button type="button" class="sc-option-btn {% if option.selected_value == value %}active{% endif %}" data-value="{{ value | escape }}" data-option="{{ forloop.parentloop.index0 }}" data-section="{{ section.id }}">{{ value }}</button>
+                {%- endfor -%}
+              </div>
+            </div>
+            {%- endfor -%}
+          </div>
+          {%- endunless -%}
+
+          <button type="submit" id="ATCBtn-{{ section.id }}" class="sc-atc-btn sc-mt-10" {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
+            <span id="ATCText-{{ section.id }}">
+              {%- if product.selected_or_first_available_variant.available -%}Add to Cart{%- else -%}Sold Out{%- endif -%}
+            </span>
+            <span id="ATCSpinner-{{ section.id }}" class="sc-spinner" style="display:none">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:sc-spin .8s linear infinite"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-opacity=".25"/><path d="M21 12a9 9 0 00-9-9"/></svg>
+            </span>
+          </button>
+        {%- endform -%}
+
+        <a href="{{ product.url }}" class="sc-view-link">View full product details →</a>
+
+        <div class="sc-trust sc-trust-2col">
+          <div class="sc-trust-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            <span>Free shipping</span>
+          </div>
+          <div class="sc-trust-item">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>5-year warranty</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var sId = {{ section.id | json }};
+  var pJson = {{ product | json }};
+  var selOpts = [{% for option in product.options_with_values %}{{ option.selected_value | json }}{% unless forloop.last %},{% endunless %}{% endfor %}];
+
+  // Thumbnail switch
+  document.querySelectorAll('.sc-thumb[data-target]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      btn.closest('.sc-gallery-thumbs').querySelectorAll('.sc-thumb').forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active');
+      var img = document.getElementById(btn.dataset.target);
+      if(img) img.src = btn.dataset.url;
+    });
+  });
+
+  // Variant logic
+  function findVariant(){
+    return pJson.variants.find(function(v){ return v.options.every(function(o,i){ return o===selOpts[i]; }); });
+  }
+  function updatePrice(v){
+    var el = document.getElementById('ProductPrice-'+sId);
+    if(!el||!v) return;
+    var amt = (v.price/100).toFixed(2);
+    var cmp = v.compare_at_price?(v.compare_at_price/100).toFixed(2):null;
+    var cur = {{ shop.currency | json }};
+    el.innerHTML = (cmp?'<span class="sc-price-compare">'+cur+' '+cmp+'</span>':'')+
+      '<span class="sc-price-current">'+cur+' '+amt+'</span>';
+  }
+  function updateBtn(v){
+    var btn=document.getElementById('ATCBtn-'+sId);
+    var txt=document.getElementById('ATCText-'+sId);
+    var inp=document.getElementById('VariantInput-'+sId);
+    if(!btn||!txt||!inp) return;
+    if(v&&v.available){btn.disabled=false;txt.textContent='Add to Cart';inp.value=v.id;}
+    else{btn.disabled=true;txt.textContent='Sold Out';}
+  }
+  document.querySelectorAll('.sc-option-btn[data-section="'+sId+'"]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var idx=parseInt(btn.dataset.option);
+      selOpts[idx]=btn.dataset.value;
+      btn.closest('.sc-option-btns').querySelectorAll('.sc-option-btn').forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active');
+      var v=findVariant(); updatePrice(v); updateBtn(v);
+    });
+  });
+
+  // AJAX add to cart
+  var form = document.getElementById('ProductForm-'+sId);
+  if(form) form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var btn=document.getElementById('ATCBtn-'+sId);
+    var txt=document.getElementById('ATCText-'+sId);
+    var spin=document.getElementById('ATCSpinner-'+sId);
+    var varId=document.getElementById('VariantInput-'+sId).value;
+    btn.disabled=true; if(txt)txt.style.display='none'; if(spin)spin.style.display='flex';
+    fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({id:varId,quantity:1})})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(!d.status){ document.dispatchEvent(new CustomEvent('cart:refresh')); ScCart.open(); }
+    })
+    .catch(function(err){console.error(err);})
+    .finally(function(){btn.disabled=false;if(txt)txt.style.display='';if(spin)spin.style.display='none';});
+  });
+})();
+</script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Product Section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product" }
+  ],
+  "presets": [{ "name": "Product Section" }]
+}
+{% endschema %}

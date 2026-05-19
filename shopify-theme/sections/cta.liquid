@@ -1,0 +1,17 @@
+<section class="sc-cta">
+  <div class="sc-container sc-cta-inner">
+    <h2 class="sc-cta-heading">Tonight is the start of better sleep.</h2>
+    <p class="sc-cta-body">Join thousands waking up aligned, calm, and ready.</p>
+    {%- assign first_product = all_products.first -%}
+    {%- if first_product -%}
+      <a href="{{ first_product.url }}" class="sc-btn sc-btn-dark">
+        Shop the Pillow
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{ "name": "CTA", "settings": [], "presets": [{ "name": "CTA" }] }
+{% endschema %}

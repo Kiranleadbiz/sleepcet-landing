@@ -1,0 +1,54 @@
+<section id="science" class="sc-science">
+  <div class="sc-container sc-science-grid">
+    <div class="sc-science-images">
+      {%- if section.settings.airway_closed -%}
+        <img src="{{ section.settings.airway_closed | image_url: width: 1254 }}" alt="Standard pillow closes the airway" loading="lazy" class="sc-rounded sc-shadow">
+      {%- else -%}
+        <img src="{{ 'airway-closed.jpg' | asset_url }}" alt="Standard pillow closes the airway" loading="lazy" class="sc-rounded sc-shadow">
+      {%- endif -%}
+      {%- if section.settings.airway_open -%}
+        <img src="{{ section.settings.airway_open | image_url: width: 1254 }}" alt="Sleepcet opens the airway" loading="lazy" class="sc-rounded sc-shadow">
+      {%- else -%}
+        <img src="{{ 'airway-open.jpg' | asset_url }}" alt="Sleepcet opens the airway" loading="lazy" class="sc-rounded sc-shadow">
+      {%- endif -%}
+    </div>
+    <div class="sc-science-content">
+      <p class="sc-label">Sleep technology</p>
+      <h2 class="sc-heading">Three layers. One result: alignment.</h2>
+      <div class="sc-layers">
+        <div class="sc-layer">
+          <span class="sc-layer-num">01</span>
+          <div>
+            <h3 class="sc-layer-title">Cooling Knit Cover</h3>
+            <p class="sc-layer-body">Breathable, moisture-wicking weave keeps surface temperature regulated.</p>
+          </div>
+        </div>
+        <div class="sc-layer">
+          <span class="sc-layer-num">02</span>
+          <div>
+            <h3 class="sc-layer-title">Adaptive Memory Foam</h3>
+            <p class="sc-layer-body">Pressure-responsive layer molds to head, neck and shoulder geometry.</p>
+          </div>
+        </div>
+        <div class="sc-layer">
+          <span class="sc-layer-num">03</span>
+          <div>
+            <h3 class="sc-layer-title">Ergonomic Core</h3>
+            <p class="sc-layer-body">Contoured base maintains cervical curvature for side and back sleepers.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Science",
+  "settings": [
+    { "type": "image_picker", "id": "airway_closed", "label": "Airway closed image" },
+    { "type": "image_picker", "id": "airway_open", "label": "Airway open image" }
+  ],
+  "presets": [{ "name": "Science" }]
+}
+{% endschema %}

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#04102a">
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  {%- if page_title == blank -%}
+    <title>{{ shop.name }} — Wake Up Without Neck Pain</title>
+  {%- else -%}
+    <title>{{ page_title }} — {{ shop.name }}</title>
+  {%- endif -%}
+
+  {%- if page_description -%}
+    <meta name="description" content="{{ page_description | escape }}">
+  {%- endif -%}
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="{{ shop.name }}">
+  <meta property="og:title" content="{{ page_title | default: shop.name }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ canonical_url }}">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&family=Epilogue:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  {{ content_for_header }}
+
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+</head>
+
+<body>
+  {%- sections 'header' -%}
+
+  <!-- Cart Drawer -->
+  <div id="cart-drawer-overlay" class="sc-overlay" aria-hidden="true"></div>
+  <div id="cart-drawer" class="sc-cart-drawer" aria-label="Cart" role="dialog" aria-modal="true">
+    <div class="sc-cart-header">
+      <h2 class="sc-cart-title">Your Cart</h2>
+      <button id="cart-close-btn" class="sc-cart-close" aria-label="Close cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div id="cart-items" class="sc-cart-items"></div>
+    <div id="cart-empty" class="sc-cart-empty" style="display:none">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <p>Your cart is empty</p>
+    </div>
+    <div id="cart-footer" class="sc-cart-footer" style="display:none">
+      <div class="sc-cart-subtotal">
+        <span>Subtotal</span>
+        <span id="cart-subtotal-price"></span>
+      </div>
+      <a id="cart-checkout-btn" href="/checkout" class="sc-atc-btn">Secure Checkout</a>
+      <p class="sc-cart-note">Free shipping • Easy returns</p>
+    </div>
+  </div>
+
+  <main id="MainContent">
+    {{ content_for_layout }}
+  </main>
+
+  {{ 'cart.js' | asset_url | script_tag }}
+</body>
+</html>

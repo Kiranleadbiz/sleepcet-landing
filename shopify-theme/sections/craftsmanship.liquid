@@ -1,0 +1,83 @@
+<section id="craftsmanship" class="sc-craft">
+  <!-- Materials & Specs -->
+  <div class="sc-container sc-craft-grid">
+    <div>
+      <p class="sc-label">Craftsmanship</p>
+      <h2 class="sc-heading">Built like furniture. Tuned like an instrument.</h2>
+      <p class="sc-body">Every Sleepcet is pressed, cured and hand-finished in small batches. We obsess over density, rebound and breathability so the pillow you sleep on tonight feels the same on night 1,800.</p>
+      <dl class="sc-specs">
+        <div class="sc-spec-row"><dt>Density</dt><dd>55 kg/m³ visco-elastic memory foam</dd></div>
+        <div class="sc-spec-row"><dt>Cover</dt><dd>Tencel™ + bamboo charcoal knit, 320 GSM</dd></div>
+        <div class="sc-spec-row"><dt>Loft zones</dt><dd>Dual — 12cm side lobe / 10cm back lobe</dd></div>
+        <div class="sc-spec-row"><dt>Surface temp</dt><dd>Regulated 2–4°C cooler than standard foam</dd></div>
+        <div class="sc-spec-row"><dt>Certifications</dt><dd>CertiPUR-US® and OEKO-TEX® Standard 100</dd></div>
+        <div class="sc-spec-row"><dt>Made for</dt><dd>Side and back sleepers, 5'2" – 6'4"</dd></div>
+      </dl>
+    </div>
+    <div class="sc-craft-img-wrap">
+      <div class="sc-craft-glow"></div>
+      {%- if section.settings.product_shot -%}
+        <img src="{{ section.settings.product_shot | image_url: width: 1280 }}" alt="Sleepcet pillow" loading="lazy" class="sc-rounded sc-shadow sc-w-full">
+      {%- else -%}
+        <img src="{{ 'product-shot-new.jpg' | asset_url }}" alt="Sleepcet pillow detail" loading="lazy" class="sc-rounded sc-shadow sc-w-full">
+      {%- endif -%}
+    </div>
+  </div>
+
+  <!-- Anatomy -->
+  <div class="sc-craft-anatomy">
+    <div class="sc-container sc-craft-grid sc-craft-grid-reverse">
+      {%- if section.settings.cross_section -%}
+        <img src="{{ section.settings.cross_section | image_url: width: 1280 }}" alt="Cross-section of Sleepcet pillow" loading="lazy" class="sc-rounded sc-shadow sc-w-full">
+      {%- else -%}
+        <img src="{{ 'cross-section.jpg' | asset_url }}" alt="Cross-section of Sleepcet pillow" loading="lazy" class="sc-rounded sc-shadow sc-w-full">
+      {%- endif -%}
+      <div>
+        <p class="sc-label sc-label-muted">Anatomy</p>
+        <h2 class="sc-heading">A closer look inside.</h2>
+        <p class="sc-body">The cross-section reveals how the cooling cover, adaptive transition layer and ergonomic core work together — distributing weight away from pressure points while keeping your cervical spine in a neutral line.</p>
+        <ul class="sc-anatomy-list">
+          <li><span class="sc-arrow">→</span> 1.5cm cooling knit — wicks moisture and disperses heat</li>
+          <li><span class="sc-arrow">→</span> 2cm adaptive transition — softens initial contact</li>
+          <li><span class="sc-arrow">→</span> 7cm ergonomic core — holds cervical curvature all night</li>
+          <li><span class="sc-arrow">→</span> Ventilated base — airflow channels reduce heat retention</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Side Sleepers -->
+  <div class="sc-container sc-craft-grid">
+    <div>
+      <p class="sc-label sc-label-gold">For side sleepers</p>
+      <h2 class="sc-heading">The shoulder, finally respected.</h2>
+      <p class="sc-body">Standard pillows force side sleepers to choose between a sore shoulder or a kinked neck. Sleepcet's higher side lobe cradles the head at the exact angle your spine wants — no more stacking pillows, no more 3am adjustments.</p>
+      <div class="sc-stats">
+        <div><div class="sc-stat-num">92%</div><p class="sc-stat-label">reported less morning stiffness</p></div>
+        <div><div class="sc-stat-num">2.4×</div><p class="sc-stat-label">fewer night-time position changes</p></div>
+        <div><div class="sc-stat-num">14d</div><p class="sc-stat-label">average time to feel the difference</p></div>
+      </div>
+      <div class="sc-parent-badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        Parent Friendly
+      </div>
+    </div>
+    {%- if section.settings.lifestyle_side -%}
+      <img src="{{ section.settings.lifestyle_side | image_url: width: 1280 }}" alt="Side sleeper on Sleepcet pillow" loading="lazy" class="sc-rounded sc-shadow sc-w-full">
+    {%- else -%}
+      <img src="{{ 'lifestyle-side-new.png' | asset_url }}" alt="Side sleeper on Sleepcet pillow" loading="lazy" class="sc-rounded sc-shadow sc-w-full">
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Craftsmanship",
+  "settings": [
+    { "type": "image_picker", "id": "product_shot", "label": "Product shot image" },
+    { "type": "image_picker", "id": "cross_section", "label": "Cross-section image" },
+    { "type": "image_picker", "id": "lifestyle_side", "label": "Side sleeper lifestyle image" }
+  ],
+  "presets": [{ "name": "Craftsmanship" }]
+}
+{% endschema %}
